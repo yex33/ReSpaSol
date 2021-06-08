@@ -26,5 +26,4 @@ We use the matrix market format. The matrix can be downloaded directly from the 
 | Matrices |Link to download Matrix Market formats |
 | :---: | :---: | 
 | 2cubes_sphere | https://suitesparse-collection-website.herokuapp.com/MM/Um/2cubes_sphere.tar.gz |
-| :---: | :---: |
 | ASIC_320ks | https://suitesparse-collection-website.herokuapp.com/MM/Sandia/ASIC_320ks.tar.gz   |
