@@ -27,7 +27,22 @@ seconds on average to factorize these matrices using 10 cores. The second group 
 to 64,000,000 nonzeros and it takes on average a few minutes to factorize most of the matrices in this
 group using 10 cores.
 
-#### Moderate size matrices 
+The matrices can be automatically downloaded by using the bash script
+provided as shown below:
+
+```bash
+cd matrices/moderate # from ReSpaSol home directory
+./getModerateSizeMatrices.sh
+```
+This script will download and unzip all the medium size matrices.
+
+Similarly, the large matrices can also be downloaded as shown below:
+```bash
+cd matrices/big # from ReSpaSol home directory
+./getLargerMatrices.sh
+```
+
+
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 
 |2cubes_sphere | https://suitesparse-collection-website.herokuapp.com/MM/Um/2cubes_sphere.tar.gz |
@@ -51,12 +66,3 @@ group using 10 cores.
 |thermomech_TK|https://suitesparse-collection-website.herokuapp.com/MM/Botonakis/thermomech_TK.tar.gz|
 |tmt_unsym|https://suitesparse-collection-website.herokuapp.com/MM/CEMW/tmt_unsym.tar.gz|
 |xenon2|https://suitesparse-collection-website.herokuapp.com/MM/Ronis/xenon2.tar.gz|
-
-The matrices can also be automatically downloaded by using the bash script
-provided as shown below:
-
-```bash
-cd matrices/moderate # from ReSpaSol home directory
-./getModerateSizeMatrices.sh
-```
-This script will download and unzip all the medium size matrices.
