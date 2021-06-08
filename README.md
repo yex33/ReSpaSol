@@ -82,7 +82,7 @@ Below are few example with mumps.
 1. Run double precision mumps solver using 10 CPU cores
    * From the home repository open test_mumps.c and make sure `#define FLOAT` is commented (`//#define FLOAT`)
    * Compile the code  ``` $ make  ```
-   * From the home repository, run the script ``` $ OMP_NUM_THREADS=10 ./run_mups.sh > mumps_10_cores_FP64.txt```
+   * From the home repository, run ``` $ OMP_NUM_THREADS=10 ./run_mups.sh > mumps10CoresFP64.txt```
 
 
 | Matrices |Links to download Matrix Market formats |
