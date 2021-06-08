@@ -70,23 +70,6 @@ int main(int argc, char ** argv)
     MUMPS_INT n   = matrixA.n;
     MUMPS_INT8 nnz = matrixA.nnz;
 
-    /* // get min and max */
-    /* double mymin = 1.0e+29; */
-    /* double mymax = 0.00000000001; */
-    /* for(int i =0; i < matrixA.nnz; i++){ */
-    /*     if( abs(matrixA.values[i]) == 0){ */
-    /*         continue; */
-    /*     } else if (abs(matrixA.values[i]) > mymax){ */
-    /*         mymax = abs(matrixA.values[i]); */
-    /*     } else if (abs(matrixA.values[i]) < mymin) */
-    /*         mymin = abs(matrixA.values[i]); */
-    /* } */
-    /* printf("\n  %.2e \t %.2e\n", mymax, mymin); */
-
-    /* //check diagonaly dominant  */
-    /* return 0; */
-
-
    // Convert value of A to single
     #ifdef FLOAT
     float *A = (float*)malloc(matrixA.nnz*sizeof(float));

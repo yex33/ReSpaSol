@@ -1,23 +1,3 @@
-/*! \file
-Copyright (c) 2003, The Regents of the University of California, through
-Lawrence Berkeley National Laboratory (subject to receipt of any required 
-approvals from U.S. Dept. of Energy) 
-
-All rights reserved. 
-
-The source code is distributed under BSD license, see the file License.txt
-at the top-level directory.
-*/
-
-/*
- * -- SuperLU MT routine (version 3.0) --
- * Lawrence Berkeley National Lab, Univ. of California Berkeley,
- * and Xerox Palo Alto Research Center.
- * September 10, 2007
- *
- */
-
-
 #include<unistd.h>
 #include "omp.h"
 #include <stdlib.h>
@@ -267,9 +247,9 @@ int main(int argc, char *argv[])
     Destroy_SuperNode_SCP(&L);
     Destroy_CompCol_NCP(&U);
 
-    printf("\n Reordering TIMING:  total  = %gs\n", time_analysis);    
+    printf("\n Reordering TIMING:  total  = %gs\n", time_analysis);
     printf("\n  Total TIMING   = %gs\n", t2 - t1);
-    
+
 //    #ifdef FLOAT
 //        free(Afp32);
 //    #endif
