@@ -101,7 +101,7 @@ numerical factorization, solve, and additional details.
 The scripts are provided in the home directory for other experiments as well.
 The GPU experiments are similar expect the scripts are located in the GPU repository.
 
-
+## additional details on the sparse matrices used
 
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 
