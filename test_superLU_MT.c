@@ -2,10 +2,10 @@
 #include "omp.h"
 #include <stdlib.h>
 
-#define FLOAT
-#ifdef FLOAT // set to 0 for single precision 
+
+#if 1 // set to 0 for single precision. This hack is done because of bug in super
 extern "C" {
-#include "slu_mt_ddefs.h"
+   #include "slu_mt_ddefs.h"
 }
 #else
 extern "C" {
@@ -15,6 +15,7 @@ extern "C" {
 
 #include "loadMatrixMarket.h"
 
+//#define FLOAT
 
 void set_ftz(void)
 {
