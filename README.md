@@ -20,7 +20,7 @@ These include:
 
 
 ### Sparse matrices
-The matrices used in the experimentations are selected  from the [https://sparse.tamu.edu/](SuiteSparse Matrix Collection).
+The matrices used in the experimentations are selected  from the [SuiteSparse Matrix Collection](https://sparse.tamu.edu/).
 We use the matrix market format. The matrix can be downloaded directly from the SuiteSparse Matrix Collection.
 The matrices are divided in two groups. The first 21 matrices are from the medium size group with 700, 000 to 5, 000, 000 nonzero elements. It takes a few
 seconds on average to factorize these matrices using 10 cores. The second group contains larger matrices with 7,000,000
