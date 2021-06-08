@@ -65,6 +65,13 @@ $ make
 This will create the  following executable files: `test_superLU_MT`, `test_superILU`, `test_pardiso`, `test_mumps`,
 `test_spmv`.
 
+4. Compile codes for GPU experiments 
+```bash
+$ cd ../GPU
+$ make
+```
+This will create the  following executable files:  `test_spmv`, `test_ilu0`.
+
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 
 |2cubes_sphere | https://suitesparse-collection-website.herokuapp.com/MM/Um/2cubes_sphere.tar.gz |
