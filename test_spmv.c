@@ -12,7 +12,6 @@
 #include "loadMatrixMarket.h"
 
 
-
 static const size_t LLC_CAPACITY = 32*1024*1024;
 static const double *bufToFlushLlc = NULL;
 
