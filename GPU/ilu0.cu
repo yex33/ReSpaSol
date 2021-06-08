@@ -5,9 +5,6 @@
 #include <cuda.h>
 #include "loadMatrixMarket.h"
 
-/*
- * This is an example demonstrating usage of the cuSPARSE library to perform spmv
- */
 
 #define FLOAT
 
@@ -284,7 +281,6 @@ int main(int argc, char **argv)
       printf("L(%d,%d) is zero\n", numerical_zero, numerical_zero);
       return 0;
     }
-
 
 
     cudaEventRecord(start);
