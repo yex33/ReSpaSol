@@ -100,6 +100,8 @@ For each run the output file contains details on the time spent in different ste
 numerical factorization, solve, and additional details.
 
 The scripts are provided in the home directory for other experiments as well.
+Note that  the code for SpMV benchmark `test_spmv.c` runs both single precision
+and double precision experiments in a single execution, and details the results accordingly.
 The GPU experiments are similar expect the scripts are located in the GPU repository.
 
 ## Additional details on the sparse matrices used
