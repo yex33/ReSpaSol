@@ -73,6 +73,10 @@ $ make
 This will create the  following executable files:  `test_spmv`, `test_ilu0`.
 
 ## Run the experiments
+To avoid redundancy, we use the same code for both single and double precision experiments.
+To run the single precision experiment, one have to uncomment `#define FLOAT` directive in
+the code. 
+
 
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 

@@ -2,7 +2,8 @@
 #include "omp.h"
 #include <stdlib.h>
 
-#if 0 // set to 0 for single precision 
+#define FLOAT
+#ifdef FLOAT // set to 0 for single precision 
 extern "C" {
 #include "slu_mt_ddefs.h"
 }
@@ -13,8 +14,6 @@ extern "C" {
 #endif
 
 #include "loadMatrixMarket.h"
-
-#define FLOAT
 
 
 void set_ftz(void)
