@@ -75,7 +75,15 @@ This will create the  following executable files:  `test_spmv`, `test_ilu0`.
 ## Run the experiments
 To avoid redundancy, we use the same code for both single and double precision experiments.
 To run the single precision experiment, one have to uncomment `#define FLOAT` directive in
-the code. 
+the code. In the same to flush denormals to zero, the routine  call `ftz()` should be uncommented as
+it is commented by default. Note that this is only meaningful for single precision runs.
+Below are few example with mumps.
+
+1. Run double precision mumps solver using 10 CPU cores
+   1.1 From the home repository open test_mumps.c and make sure `#define FLOAT` is commented (`//#define FLOAT`)
+   1.2 compile the code  ```bash
+                       $ make
+                       ```
 
 
 | Matrices |Links to download Matrix Market formats |
