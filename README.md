@@ -55,7 +55,7 @@ $ cd ReSpaSol
 $ cd ReadMatrixMarket
 $ make
 ```
-This will create the library 'libloadmatrix.a' in the ReadMatrixMarket repository.  
+This will create the library `libloadmatrix.a` in the ReadMatrixMarket repository.  
 
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 
