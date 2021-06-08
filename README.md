@@ -77,12 +77,12 @@ To avoid redundancy, we use the same code for both single and double precision e
 To run the single precision experiment, one have to uncomment `#define FLOAT` directive in
 the code. In the same to flush denormals to zero, the routine  call `ftz()` should be uncommented as
 it is commented by default. Note that this is only meaningful for single precision runs.
-Below are few example with mumps.
+Below are few example with mumps. All the commands are executed from the home repository.
 
 1. Run double precision mumps solver using 10 CPU cores
-   * From the home repository open test_mumps.c and make sure `#define FLOAT` is commented (`//#define FLOAT`)
+   * Open test_mumps.c and make sure `#define FLOAT` is commented (`//#define FLOAT`)
    * Compile the code  ``` $ make  ```
-   * From the home repository, run ``` $ OMP_NUM_THREADS=10 ./run_mups.sh > mumps10CoresFP64.txt```
+   * Run ``` $ OMP_NUM_THREADS=10 ./run_mups.sh > mumps10CoresFP64.txt```
 
 
 | Matrices |Links to download Matrix Market formats |
