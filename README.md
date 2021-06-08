@@ -52,8 +52,8 @@ cd ReSpaSol
 ```
 2. Compile the library designed to read and load matrices from Matrix Market format to CSR/CSC data structure
 ```bash
-cd ReadMatrixMarket
-make
+$ cd ReadMatrixMarket
+$ make
 ```
 
 
