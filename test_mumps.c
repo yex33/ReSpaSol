@@ -1,14 +1,3 @@
-/*
- *
- *  This file is part of MUMPS 5.2.1, released
- *  on Fri Jun 14 14:46:05 UTC 2019
- *
- */
-/* Example program using the C interface to the 
- * double real arithmetic version of MUMPS, dmumps_c.
- * We solve the system A x = RHS with
- *   A = diag(1 2) and RHS = [1 4]^T
- * Solution is [1 2]^T */
 #include <stdio.h>
 #include "omp.h"
 #include "mkl_types.h"
@@ -17,7 +6,8 @@
 #include "mpi.h"
 #include <math.h>
 #include <float.h>
-#define FLOAT
+
+//#define FLOAT
 
 #ifdef FLOAT
 #include "smumps_c.h"
@@ -43,7 +33,7 @@ int main(int argc, char ** argv)
 {
 
     #ifdef FLOAT
-    //      set_ftz();
+    //   set_ftz();
     #endif
     if (argc < 2) {
         fprintf(
@@ -168,8 +158,5 @@ int main(int argc, char ** argv)
     dmumps_c(&id);
     #endif
     MPI_Finalize();
-    //free(b);
-//    free(bs);
-//    free(A);
     return 0;
 }

@@ -7,9 +7,6 @@
 #include <mkl_spblas.h>
 #include "loadMatrixMarket.h"
 
-/*
- * This is an example demonstrating usage of the cuSPARSE library to perform spmv
- */
 
 //#define FLOAT
 

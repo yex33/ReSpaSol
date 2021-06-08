@@ -5,7 +5,7 @@
 #include <cuda.h>
 #include "loadMatrixMarket.h"
 
-#define FLOAT
+//#define FLOAT
 
 
 // Define some error checking macros.

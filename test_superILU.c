@@ -1,23 +1,4 @@
-/*! \file
-Copyright (c) 2003, The Regents of the University of California, through
-Lawrence Berkeley National Laboratory (subject to receipt of any required 
-approvals from U.S. Dept. of Energy) 
-
-All rights reserved. 
-
-The source code is distributed under BSD license, see the file License.txt
-at the top-level directory.
-*/
-
-/*
- * -- SuperLU routine (version 3.0) --
- * Univ. of California Berkeley, Xerox Palo Alto Research Center,
- * and Lawrence Berkeley National Lab.
- * October 15, 2003
- *
- */
-
-#define FLOAT
+//#define FLOAT
 
 #ifdef FLOAT
 #include "slu_sdefs.h"
@@ -38,7 +19,7 @@ void set_ftz(void)
 int main(int argc, char *argv[])
 {
 
-    set_ftz();
+    //set_ftz();
     char           equed[1];
     SuperMatrix    A, L, U;
     SuperMatrix    B, X;

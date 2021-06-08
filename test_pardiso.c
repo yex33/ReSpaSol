@@ -9,10 +9,8 @@
 #include "mkl_spblas.h"
 #include "omp.h"
 
-#include "loadMatrixMarket.h"
-
-using namespace std;
 #define FLOAT
+#include "loadMatrixMarket.h"
 
 void set_ftz(void)
 {
