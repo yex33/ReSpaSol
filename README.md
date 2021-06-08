@@ -95,6 +95,14 @@ Below are few example with mumps. All the commands are executed from the home re
    * Compile the code  ``` $ make  ```
    * Run ``` $ OMP_NUM_THREADS=10 ./run_mumps.sh >  mumps10CoresFP32Ftz.txt```
 
+For each run the output file contains details on the time spent in different steps: reordering and symbolic factorization,
+numerical factorization, solve, and additional details.
+
+The scripts are provided in the home directory for other experiments as well.
+The GPU experiments are similar expect the scripts are located in the GPU repository.
+
+
+
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 
 |2cubes_sphere | https://suitesparse-collection-website.herokuapp.com/MM/Um/2cubes_sphere.tar.gz |
