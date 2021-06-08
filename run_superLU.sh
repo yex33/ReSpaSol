@@ -10,7 +10,7 @@ Matrices2="af_shell10 af_shell2 CurlCurl_2"
 
 for val in $Matrices1; do
         echo $val
-        ./test_superLU_MT ../sparse_multiprecision_bench/matrices/moderate/$val.mtx
+        ./test_superLU_MT ./matrices/moderate/$val.mtx
         echo ""
         echo "********************************************"
         echo ""
@@ -19,7 +19,7 @@ done
 
 for val in $Matrices2; do
         echo $val
-        ./test_superLU_MT  ../sparse_multiprecision_bench/matrices/big/$val.mtx
+        ./test_superLU_MT  ./matrices/big/$val.mtx
         echo ""
         echo "********************************************"
         echo ""

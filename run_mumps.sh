@@ -10,7 +10,7 @@ Matrices2="af_shell10 af_shell2 atmosmodd atmosmodl cage13 CurlCurl_2 dielFilter
 
 for val in $Matrices1; do
         echo $val
-        ./test_mumps ../sparse_multiprecision_bench/matrices/moderate/$val.mtx
+        ./test_mumps ./matrices/moderate/$val.mtx
         echo ""
         echo "********************************************"
         echo ""
@@ -19,7 +19,7 @@ done
 
 for val in $Matrices2; do
         echo $val
-        ./test_mumps  ../sparse_multiprecision_bench/matrices/big/$val.mtx
+        ./test_mumps  ./matrices/big/$val.mtx
         echo ""
         echo "********************************************"
         echo ""
