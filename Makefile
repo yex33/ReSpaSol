@@ -50,6 +50,9 @@ test_superILU: test_superILU.o
 test_pardiso: test_pardiso.o
 	$(CC) -m64 $(CFLAGS)  -o $@ $^ $(LIBRARY_PARDISO)
 
+test_spmv: test_spmv.o
+	$(CC) -m64 $(CFLAGS)  -o $@ $^ $(LIBRARY_PARDISO)
+
 test_superLU_MT: test_superLU_MT.o 
 	$(CC) $(CFLAGS)  -o $@ $^ $(LIBRARY_THREADED)
 
@@ -63,8 +66,12 @@ test_superILU.o: test_superILU.c
 test_pardiso.o: test_pardiso.c
 	$(CC) $(CFLAGS) $(INC_PARDISO) -fPIC -c $^ -o $@
 
+
+test_spmv.o: test_spmv.c
+	$(CC) $(CFLAGS) $(INC_PARDISO) -fPIC -c $^ -o $@
+
 test_superLU_MT.o: test_superLU_MT.c
 	$(CC) $(CFLAGS) $(INC_THREADED) -fPIC -c $^ -o $@
 
 clean:
-	rm -f  *.o *~ test_superLU_MT test_superLU test_pardiso test_mumps  test_superILU
+	rm -f  *.o *~ test_superLU_MT  test_pardiso test_mumps test_spmv test_superILU

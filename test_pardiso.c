@@ -1,24 +1,3 @@
-/*******************************************************************************
-* Copyright 2004-2019 Intel Corporation.
-*
-* This software and the related documents are Intel copyrighted  materials,  and
-* your use of  them is  governed by the  express license  under which  they were
-* provided to you (License).  Unless the License provides otherwise, you may not
-* use, modify, copy, publish, distribute,  disclose or transmit this software or
-* the related documents without Intel's prior written permission.
-*
-* This software and the related documents  are provided as  is,  with no express
-* or implied  warranties,  other  than those  that are  expressly stated  in the
-* License.
-*******************************************************************************/
-
-/*
-*
-*   Content : Intel(R) MKL PARDISO C example program to show the use of the "PARDISO"
-*              routine on unsymmetric linear systems in CSC format.
-*
-*******************************************************************************/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -78,9 +57,6 @@ MKL_INT main(int argc, char *argv[])
     // allocate a large buffer to flush out cache
     int nbFlush = 2048;
     bufToFlushLlc = (double *)_mm_malloc(LLC_CAPACITY, 64);
-    const int REPEAT = 16;
-//    double times[REPEAT];
-
     
    CSR matrixA;
    int outputbase = 1;
@@ -100,8 +76,6 @@ MKL_INT main(int argc, char *argv[])
     double    *a  = matrixA.values;
     #endif
     
-//    printf("m=%d\t n=%d\t nnz=%d\n", matrixA.m, matrixA.n, matrixA.nnz);
-
 
     MKL_INT mtype = 11; /* Real unsymmetric matrix */
     // Descriptor of main sparse matrix properties
@@ -257,19 +231,12 @@ MKL_INT main(int argc, char *argv[])
         b[i] = 1;
     }
 
-    // Transpose solve is used for systems in CSC format
-    //iparm[11] = 2;
-
-    //printf("\n\nSolving the system in CSC format...\n");
-//    for (int i = 0; i < REPEAT; ++i) {
-//        for (int j = 0; j < nbFlush; ++j) flushLlc();
-        t3 = omp_get_wtime();
-        PARDISO(pt, &maxfct, &mnum, &mtype, &phase,
-                &n, a, ia, ja, perm, &nrhs, iparm, &msglvl, b, x, &error);
-        t4 = omp_get_wtime();
-//        times[i] = t4 -t3;
-        //  }
-        //sort(times, times + REPEAT);
+    
+    t3 = omp_get_wtime();
+    PARDISO(pt, &maxfct, &mnum, &mtype, &phase,
+	    &n, a, ia, ja, perm, &nrhs, iparm, &msglvl, b, x, &error);
+    t4 = omp_get_wtime();
+    
     printf("Solve : error = %d\n", error);
     // printf("TIMING: solving the system = %gs\n", t4 - t3);
     printf("TIMING: solving the system = %gs\n", t4 -t3);
@@ -284,12 +251,7 @@ MKL_INT main(int argc, char *argv[])
     
     printf("TIMING: total time = %gs\n", t2 - t1 + time_fact + t4 - t3);
 
-   /* printf("\nThe solution of the system is: ");
-    for (j = 0; j < n; j++)
-    {
-        printf("\n x [%d] = % f", j, x[j]);
-    }
-    printf("\n");*/
+
     // Compute residual
     // the CSC format for A is the CSR format for A transposed
     #ifdef FLOAT
@@ -321,9 +283,5 @@ MKL_INT main(int argc, char *argv[])
     PARDISO(pt, &maxfct, &mnum, &mtype, &phase,
             &n, a, ia, ja, perm, &nrhs, iparm, &msglvl, b, x, &error);
     
-
-     //free(matrixA.values);
-     //free(matrixA.rowptr);
-     //free(matrixA.colidx);       
     return 0;
 }
