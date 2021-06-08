@@ -281,11 +281,6 @@ int main(int argc, char **argv)
       return 0;
     }
 
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 925a721fb9fa841c5819ff9fd9764875503d4b24
     cudaEventRecord(start);
 #ifdef FLOAT
     //  Solve L*z = x

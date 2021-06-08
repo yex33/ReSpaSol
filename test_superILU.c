@@ -203,10 +203,6 @@ int main(int argc, char *argv[])
     Destroy_SuperMatrix_Store(&X);
     Destroy_SuperNode_Matrix(&L);
     Destroy_CompCol_Matrix(&U);
-
-    /* #ifdef FLOAT */
-    /* free(Afp32); */
-    /* #endif */
     
 #if ( DEBUGlevel>=1 )
     CHECK_MALLOC("Exit main()");
