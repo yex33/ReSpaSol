@@ -19,6 +19,8 @@ These include:
 4. Pardiso from MKL 2020 or a recent version available at [http://scc.ustc.edu.cn/zlsc/intel/2020/mkl/ps2020/get_started.htm](http://scc.ustc.edu.cn/zlsc/intel/2020/mkl/ps2020/get_started.htm)
 5. CUDA 10 or recent version available at [https://developer.nvidia.com/cuda-downloads](https://developer.nvidia.com/cuda-downloads)
 
+Once the libraries are installed, the `Makefile` should be modified to set the
+correct paths to the libraries. The default configuration serves only as an example.
 
 ### Sparse matrices
 The matrices used in the experimentations are selected  from the [SuiteSparse Matrix Collection](https://sparse.tamu.edu/).
@@ -44,7 +46,6 @@ $ ./getLargerMatrices.sh
 ```
 
 ## Checkout and build
-
 1. Download ReSpaSol
 ```bash
 $ git clone  https://github.com/mawussi/ReSpaSol.git
