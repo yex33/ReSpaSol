@@ -72,6 +72,8 @@ $ make
 ```
 This will create the  following executable files:  `test_spmv`, `test_ilu0`.
 
+## Run the experiments
+
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 
 |2cubes_sphere | https://suitesparse-collection-website.herokuapp.com/MM/Um/2cubes_sphere.tar.gz |
