@@ -9,14 +9,15 @@ manuscript is available at [http://eprints.maths.manchester.ac.uk/2811/](http://
 
 ## Dependencies
 
-### Parse direct solvers 
-To use the routines provided here, the parallel sparse solvers evaluated must be downloaded and compiled.
+### Libraries 
+To use the routines provided here, the parallel sparse solvers evaluated and additional  must be downloaded and installed.
 These include:
 
 1. MUMPS 5.2.1 or recent version available at [http://mumps.enseeiht.fr/](http://mumps.enseeiht.fr)
 2. SuperLU_MT 3.1  available at [https://github.com/group-gu/superlu-mt](https://github.com/group-gu/superlu-mt)
 3. SuperLU 5.2.1 available at [https://github.com/xiaoyeli/superlu](https://github.com/xiaoyeli/superlu)
 4. Pardiso from MKL 2020 or a recent version available at [http://scc.ustc.edu.cn/zlsc/intel/2020/mkl/ps2020/get_started.htm](http://scc.ustc.edu.cn/zlsc/intel/2020/mkl/ps2020/get_started.htm)
+5. CUDA 10 or recent version available at [https://developer.nvidia.com/cuda-downloads](https://developer.nvidia.com/cuda-downloads)
 
 
 ### Sparse matrices
