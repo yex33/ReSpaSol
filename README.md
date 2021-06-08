@@ -130,3 +130,25 @@ The GPU experiments are similar expect the scripts are located in the GPU reposi
 |thermomech_TK|https://suitesparse-collection-website.herokuapp.com/MM/Botonakis/thermomech_TK.tar.gz|
 |tmt_unsym|https://suitesparse-collection-website.herokuapp.com/MM/CEMW/tmt_unsym.tar.gz|
 |xenon2|https://suitesparse-collection-website.herokuapp.com/MM/Ronis/xenon2.tar.gz|
+
+
+
+
+### List of larger matrices
+| Matrices |Links to download Matrix Market formats |
+| :--- | :--- | 
+|af_shell10 | https://suitesparse-collection-website.herokuapp.com/MM/Schenk_AFE/af_shell10.tar.gz|
+|af_shell2|https://suitesparse-collection-website.herokuapp.com/MM/Schenk_AFE/af_shell2.tar.gz|
+|atmosmodd|https://suitesparse-collection-website.herokuapp.com/MM/Bourchtein/atmosmodd.tar.gz |
+|atmosmodl|https://suitesparse-collection-website.herokuapp.com/MM/Bourchtein/atmosmodl.tar.gz |
+|cage13|https://suitesparse-collection-website.herokuapp.com/MM/vanHeukelum/cage13.tar.gz|
+|CurlCurl_2 |https://suitesparse-collection-website.herokuapp.com/MM/Bodendiek/CurlCurl_2.tar.gz|
+|dielFilterV2real|https://suitesparse-collection-website.herokuapp.com/MM/Dziekonski/dielFilterV2real.tar.gz |
+|Geo_1438| https://suitesparse-collection-website.herokuapp.com/MM/Janna/Geo_1438.tar.gz|
+|Hook_1498|https://suitesparse-collection-website.herokuapp.com/MM/Janna/Hook_1498.tar.gz|
+|ML_Laplace| https://suitesparse-collection-website.herokuapp.com/MM/Janna/ML_Laplace.tar.gz|
+|nlpkkt80|https://suitesparse-collection-website.herokuapp.com/MM/Schenk/nlpkkt80.tar.gz|
+|Serena|https://suitesparse-collection-website.herokuapp.com/MM/Janna/Serena.tar.gz|
+|Si87H76|https://suitesparse-collection-website.herokuapp.com/MM/PARSEC/Si87H76.tar.gz |
+|StocF-1465 |https://suitesparse-collection-website.herokuapp.com/MM/Janna/StocF-1465.tar.gz|
+|Transport|https://suitesparse-collection-website.herokuapp.com/MM/Janna/Transport.tar.gz|
