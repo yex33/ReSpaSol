@@ -24,8 +24,6 @@ int main(int argc, char *argv[])
     SuperMatrix    A, L, U;
     SuperMatrix    B, X;
     NCformat       *Astore;
-    NCformat       *Ustore;
-    SCformat       *Lstore;
     GlobalLU_t	   Glu; /* facilitate multiple factorizations with 
                            SamePattern_SameRowPerm                  */
     int            *perm_r; /* row permutations from partial pivoting */
@@ -127,26 +125,12 @@ int main(int argc, char *argv[])
     #endif
     if ( info == 0 ) {
 
-        /* This is how you could access the solution matrix. */
-        #ifdef FLOAT
-            float *sol = (float*) ((DNformat*) B.Store)->nzval; 
-        #else
-            double *sol = (double*) ((DNformat*) B.Store)->nzval; 
-        #endif
-            
-            /* Compute the infinity norm of the error. */
+        /* Compute the infinity norm of the error. */
         #ifdef FLOAT
             sinf_norm_error(nrhs, &B, xact);
         #else
             dinf_norm_error(nrhs, &B, xact);
         #endif 
-            
-        Lstore = (SCformat *) L.Store;
-        /* Ustore = (NCformat *) U.Store; */
-    	/* printf("#NZ  in factor L = %d\n", Lstore->nnz); */
-    	/* printf("#NZ  in factor U = %d\n", Ustore->nnz); */
-    	/* printf("No of nonzeros in L+U = %d\n", Lstore->nnz + Ustore->nnz - n); */
-    	/* printf("FILL ratio = %.1f\n", (float)(Lstore->nnz + Ustore->nnz - n)/nnz); */
 
         #ifdef FLOAT
             sQuerySpace(&L, &U, &mem_usage);

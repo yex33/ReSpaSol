@@ -76,13 +76,11 @@ int main(int argc, char ** argv)
     #ifdef FLOAT
     float 
         *b = (float*)malloc(sizeof(float)*n),
-        *bs = (float*)malloc(sizeof(float)*n),
-        res;
+        *bs = (float*)malloc(sizeof(float)*n);
     #else
     double 
         *b = (double*)malloc(sizeof(double)*n),
-        *bs = (double*)malloc(sizeof(double)*n),
-        res;
+        *bs = (double*)malloc(sizeof(double)*n);
     #endif
     for(int i=0; i<n; i++) {
         b[i] = 1.0;
@@ -90,7 +88,6 @@ int main(int argc, char ** argv)
     }
 
     MUMPS_INT myid;
-    int error = 0;
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &myid);
 
@@ -129,7 +126,6 @@ int main(int argc, char ** argv)
     if (id.infog[0]<0) {
         printf(" (PROC %d) ERROR RETURN: \tINFOG(1)= %d\n\t\t\t\tINFOG(2)= %d\n",
                myid, id.infog[0], id.infog[1]);
-        error = 1;
     }
 
     // Call the MUMPS package for solve.
@@ -144,7 +140,6 @@ int main(int argc, char ** argv)
     if (id.infog[0]<0) {
         printf(" (PROC %d) ERROR RETURN: \tINFOG(1)= %d\n\t\t\t\tINFOG(2)= %d\n",
                myid, id.infog[0], id.infog[1]);
-        error = 1;
     }
 
     if (myid == 0) {
