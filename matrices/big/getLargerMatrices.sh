@@ -1,21 +1,21 @@
 #!/bin/bash
 
 #Download matrices
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Schenk_AFE/af_shell10.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Schenk_AFE/af_shell2.tar.gz 
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Bourchtein/atmosmodd.tar.gz 
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Bourchtein/atmosmodl.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/vanHeukelum/cage13.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Bodendiek/CurlCurl_2.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Dziekonski/dielFilterV2real.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/Geo_1438.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/Hook_1498.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/ML_Laplace.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Schenk/nlpkkt80.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/Serena.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/PARSEC/Si87H76.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/StocF-1465.tar.gz
-# wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/Transport.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Schenk_AFE/af_shell10.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Schenk_AFE/af_shell2.tar.gz 
+wget https://suitesparse-collection-website.herokuapp.com/MM/Bourchtein/atmosmodd.tar.gz 
+wget https://suitesparse-collection-website.herokuapp.com/MM/Bourchtein/atmosmodl.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/vanHeukelum/cage13.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Bodendiek/CurlCurl_2.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Dziekonski/dielFilterV2real.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/Geo_1438.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/Hook_1498.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/ML_Laplace.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Schenk/nlpkkt80.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/Serena.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/PARSEC/Si87H76.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/StocF-1465.tar.gz
+wget https://suitesparse-collection-website.herokuapp.com/MM/Janna/Transport.tar.gz
 
 
 #Unzip the files
