@@ -51,3 +51,12 @@ group using 10 cores.
 |thermomech_TK|https://suitesparse-collection-website.herokuapp.com/MM/Botonakis/thermomech_TK.tar.gz|
 |tmt_unsym|https://suitesparse-collection-website.herokuapp.com/MM/CEMW/tmt_unsym.tar.gz|
 |xenon2|https://suitesparse-collection-website.herokuapp.com/MM/Ronis/xenon2.tar.gz|
+
+The matrices can also be automatically downloaded by using the bash script
+provided as shown below:
+
+```bash
+cd matrices/moderate # from ReSpaSol home directory
+./getModerateSizeMatrices.sh
+```
+This script will download and unzip all the medium size matrices.
