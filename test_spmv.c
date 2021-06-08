@@ -4,6 +4,7 @@
 #include <fenv.h>
 #include <algorithm>
 
+#include<mkl.h>
 #include "mkl_types.h"
 #include "mkl_spblas.h"
 #include "omp.h"
@@ -14,6 +15,19 @@
 
 static const size_t LLC_CAPACITY = 32*1024*1024;
 static const double *bufToFlushLlc = NULL;
+
+
+static void printPerf(double *times, int REPEAT)
+{
+    //sort(times, times + REPEAT);
+    double sum = 0;
+    for (int i  = 0; i < REPEAT; i++){
+        sum += times[i];
+    }
+    double t = sum/(REPEAT);
+
+    printf("\t%.6f (us) \n",  t*1e6);
+}
 
 void flushLlc()
 {
@@ -43,7 +57,6 @@ int main(int argc, char **argv)
   int outputbase = 1;
   loadMatrixMarket(argv[1], &A, outputbase, 0 /*transpose =false*/);
   int nnz = A.nnz;
-  double flops = 2*nnz;
   double bytes = sizeof(int)*(nnz  + A.m) + //rowprt + colidx
     sizeof(double)*nnz +   // values
     sizeof(double)*2*A.m; // vectors
@@ -61,7 +74,7 @@ int main(int argc, char **argv)
   int nbFlush = 2048;
   bufToFlushLlc = (double *)_mm_malloc(LLC_CAPACITY, 64);
 
-  const int REPEAT = 3;
+  const int REPEAT = 5;
   double times[REPEAT];
   sparse_status_t stat;
 
@@ -89,80 +102,52 @@ int main(int argc, char **argv)
 
 /******************************Preparing for single  SINGLE************************************/
   // Single precision variant
-  int ONE = 1;
-  int info;
   double RMAX = (double) LAPACKE_slamch('O');
   int overflow = 0;
-  bytes = sizeof(int)*(nnz  + A.m) + //rowprt + colidx
-    sizeof(float)*nnz +   // values
-    sizeof(float)*2*A.m; // vectors
-  // convert fp64 matrix to fp32
 
-  double start = omp_get_wtime();
+  // convert fp64 matrix to fp32
   
   float *x32 = (float*)malloc(sizeof(float)*A.m);
   float *y32 = (float*)malloc(sizeof(float)*A.m);
   double *y32to64 = (double*)malloc(sizeof(double)*A.m);
   float *values32 = (float*)malloc(sizeof(float)*nnz);
-  double stop = omp_get_wtime();
 
-  double time_alloc = stop - start;
-
-  for (int i = 0; i < REPEAT; ++i) {
-    for (int j = 0; j < nbFlush; ++j) flushLlc();
-    double t = omp_get_wtime();
-    #pragma ivdep
-    #pragma omp parallel for
-    for (int k = 0; k < nnz; k++){
-        if (A.values[k] > RMAX) {
-            overflow = 1;
-        }else{
-            values32[k] = (float) (A.values[k]);
-        }
-    }
-    //LAPACKE_dlag2s_work(LAPACK_COL_MAJOR, nnz, 1, A.values, nnz, values32, nnz);
-    //dlag2s_( &nnz, &ONE, A.values, &nnz, values32, &nnz, &info );
-    times[i] = omp_get_wtime() - t;
+  #pragma omp parallel for
+  for (int k = 0; k < nnz; k++){
+      if (A.values[k] > RMAX) {
+          overflow = 1;
+      }else{
+          values32[k] = (float) (A.values[k]);
+      }
   }
+
   if (overflow) {
       printf("Conversion of A overflow\n");
       overflow = 0;
   }
-  sort(times, times + REPEAT);
-  double time_convert_A = times[REPEAT/2];
   
-  for (int i = 0; i < REPEAT; ++i) {
-    for (int j = 0; j < nbFlush; ++j) flushLlc();
-    double t = omp_get_wtime();
-    //LAPACKE_dlag2s_work(LAPACK_COL_MAJOR, A.m, 1, x, A.m, x32, A.m);
-    #pragma omp parallel for
-    for (int k = 0; k < A.m; k++) {
-        if (A.values[k] > RMAX) {
-            overflow = 1;
-        } else {
-            x32[k] = (float)x[k];
-        }
-    }
-    times[i] = omp_get_wtime() - t;
+
+  #pragma omp parallel for
+  for (int k = 0; k < A.m; k++) {
+      if (A.values[k] > RMAX) {
+          overflow = 1;
+      } else {
+          x32[k] = (float)x[k];
+      }
   }
+  
   if (overflow) {
       printf("Conversion of X overflow\n");
       overflow = 0;
   }
-  
-  sort(times, times + REPEAT);
-  double time_convert_x = times[REPEAT/2];
 
-  start = omp_get_wtime();
   sparse_matrix_t mklA32;
   stat = mkl_sparse_s_create_csr(
       &mklA32,
       SPARSE_INDEX_BASE_ZERO, A.m, A.n,
       A.rowptr, A.rowptr + 1,
       A.colidx, values32);
-  start = omp_get_wtime();
-  double time_create_csr = start - stop;
-  
+
   if (SPARSE_STATUS_SUCCESS != stat) {
       fprintf(stderr, "Failed to create mkl csr\n");
       return -1;
@@ -182,62 +167,43 @@ int main(int argc, char **argv)
       SPARSE_OPERATION_NON_TRANSPOSE, 1, mklA, descA, x, 0, y);
     times[i] = omp_get_wtime() - t;
   }
-  
-  
+
+  printf("Double precision SpMV time:");
+  printPerf(times, REPEAT);
+
   for (int i = 0; i < REPEAT; ++i) {
       for (int j = 0; j < nbFlush; ++j) flushLlc();
       double t = omp_get_wtime();
       mkl_sparse_s_mv(
           SPARSE_OPERATION_NON_TRANSPOSE, 1, mklA32, descA32, x32, 0, y32);
       times[i] = omp_get_wtime() - t;
-      
   }
-  
 
+  printf("Single precision SpMV time:");
+  printPerf(times, REPEAT);
 /*****************************END RUNS******************************************/
-  
-  
+
   // Copy solution back to fp64
-  for (int i = 0; i < REPEAT; ++i) {
-    for (int j = 0; j < nbFlush; ++j) flushLlc();
-    double t = omp_get_wtime();
-    //LAPACKE_slag2d_work(LAPACK_COL_MAJOR, A.m, 1, y32, A.m, y32to64, A.m);
-    #pragma ivdep
-    #pragma omp parallel for 
-    for (int k = 0; k < A.m; k++) {
-        y32to64[k] = (double) y32[k];
-    }
-    times[i] = omp_get_wtime() - t;
-  }
-  sort(times, times + REPEAT);
-  double time_convert_y = times[REPEAT/2];
-  
 
-  printf(" malloc=%6f,   copy_A=%6f, copy_x=%6f, copy_y=%6f, NewCSR =%6f\n", time_alloc*1e6, time_convert_A*1e6, time_convert_x*1e6, time_convert_y*1e6, time_create_csr*1e6);
-
-  for (int i = 0; i < REPEAT; ++i) {
-    for (int j = 0; j < nbFlush; ++j) flushLlc();
-    double t = omp_get_wtime();
-    //LAPACKE_slag2d_work(LAPACK_COL_MAJOR, nnz, 1, values32, nnz, A.values, nnz);
-    #pragma ivdep
-    #pragma omp parallel for 
-    for (int k = 0; k < nnz; k++) {
-        A.values[k] = (double) values32[k];
-    }
-    times[i] = omp_get_wtime() - t;
+  #pragma omp parallel for 
+  for (int k = 0; k < A.m; k++) {
+      y32to64[k] = (double) y32[k];
   }
-  sort(times, times + REPEAT);
-  double time_convert_A32to64 = times[REPEAT/2];
-  printf("Conversion 32 to 64: %6f\n", time_convert_A32to64*1e6);
+
+
+  #pragma omp parallel for 
+  for (int k = 0; k < nnz; k++) {
+      A.values[k] = (double) values32[k];
+  }
+
   // Check results
   double error = 0.0;
   #pragma omp parallel for
   for(int i = 0; i < A.m; i++) {
-    error += abs(y[i] - y32to64[i]);
+      error += abs(y[i] - y32to64[i]);
   }
 
-  printf ("Error= %e\n", error/A.m);
-  
+  printf ("Error= %e\n", error/A.m); 
   free(x);
   free(y);
   free(x32);
@@ -245,5 +211,4 @@ int main(int argc, char **argv)
 
   free(y32to64);
   free(values32);
-  delete A;
 }

@@ -38,7 +38,7 @@ CFLAGS	= -fopenmp -fPIC -std=c++11 -Wno-deprecated -Wall -O3
 
 all: test
 
-test: test_superLU_MT test_superILU test_pardiso  test_mumps
+test: test_superLU_MT test_superILU test_pardiso  test_mumps test_spmv
 
 test_mumps: test_mumps.o
 	mpif90 $(CFLAGS)  -o $@ $^ $(LIB_MUMPS) $(LIB_METIS)   $(LIB_SCALAP)  $(LIB_MPI)  $(LIB_LOAD_MATRIX) -fopenmp -lgfortran   -lstdc++ -ldl
