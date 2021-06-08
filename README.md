@@ -82,8 +82,18 @@ Below are few example with mumps. All the commands are executed from the home re
 1. Run double precision mumps solver using 10 CPU cores
    * Open test_mumps.c and make sure `#define FLOAT` is commented (`//#define FLOAT`)
    * Compile the code  ``` $ make  ```
-   * Run ``` $ OMP_NUM_THREADS=10 ./run_mups.sh > mumps10CoresFP64.txt```
+   * Run ``` $ OMP_NUM_THREADS=10 ./run_mumps.sh > mumps10CoresFP64.txt```
 
+2. Run single precision mumps solver using 10 CPU cores
+   * Open test_mumps.c and make sure `#define FLOAT` is not commented
+   * Also make sure the routine call `ftz()` is commented out (`//ftz()`)
+   * Compile the code  ``` $ make  ```
+   * Run ``` $ OMP_NUM_THREADS=10 ./run_mumps.sh > mumps10CoresFP32.txt```
+
+3. Run single precision mumps solver using 10 CPU cores with subnormals flushed to zero
+   * Open test_mumps.c and make sure `#define FLOAT` and `ftz()` are not commented out
+   * Compile the code  ``` $ make  ```
+   * Run ``` $ OMP_NUM_THREADS=10 ./run_mumps.sh >  mumps10CoresFP32Ftz.txt```
 
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 
