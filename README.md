@@ -32,23 +32,23 @@ The matrices can be automatically downloaded by using the bash script
 provided as shown below:
 
 ```bash
-cd matrices/moderate # from ReSpaSol home directory
-./getModerateSizeMatrices.sh
+$ cd matrices/moderate # from ReSpaSol home directory
+$ ./getModerateSizeMatrices.sh
 ```
 This script will download and unzip all the medium size matrices.
 
 Similarly, the large matrices can also be downloaded as shown below:
 ```bash
-cd matrices/big # from ReSpaSol home directory
-./getLargerMatrices.sh
+$ cd matrices/big # from ReSpaSol home directory
+$ ./getLargerMatrices.sh
 ```
 
 ## Checkout and build
 
 1. Download ReSpaSol
 ```bash
-git clone  https://github.com/mawussi/ReSpaSol.git
-cd ReSpaSol
+$ git clone  https://github.com/mawussi/ReSpaSol.git
+$ cd ReSpaSol
 ```
 2. Compile the library designed to read and load matrices from Matrix Market format to CSR/CSC data structure
 ```bash
