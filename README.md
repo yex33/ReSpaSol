@@ -50,6 +50,11 @@ cd matrices/big # from ReSpaSol home directory
 git clone  https://github.com/mawussi/ReSpaSol.git
 cd ReSpaSol
 ```
+2. Compile the library designed to read and load matrices from Matrix Market format to CSR/CSC data structure
+```bash
+cd ReadMatrixMarket
+make
+```
 
 
 | Matrices |Links to download Matrix Market formats |
