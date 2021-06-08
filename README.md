@@ -57,6 +57,14 @@ $ make
 ```
 This will create the library `libloadmatrix.a` in the ReadMatrixMarket repository.  
 
+3. Compile the codes for CPU experiments
+```bash
+$ cd ../  # back the ReSpaSol home directory
+$ make
+```
+This will create the  following executable files: `test_superLU_MT`, `test_superILU`, `test_pardiso`, `test_mumps`,
+`test_spmv`.
+
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 
 |2cubes_sphere | https://suitesparse-collection-website.herokuapp.com/MM/Um/2cubes_sphere.tar.gz |
