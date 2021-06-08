@@ -43,6 +43,12 @@ cd matrices/big # from ReSpaSol home directory
 ./getLargerMatrices.sh
 ```
 
+## Checkout and build
+1. Download ReSpaSol
+git clone  https://github.com/mawussi/ReSpaSol.git
+cd ReSpaSol
+```
+
 
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 
