@@ -80,8 +80,8 @@ it is commented by default. Note that this is only meaningful for single precisi
 Below are few example with mumps.
 
 1. Run double precision mumps solver using 10 CPU cores
-   1.1 From the home repository open test_mumps.c and make sure `#define FLOAT` is commented (`//#define FLOAT`)
-   1.2 compile the code  ``` $ make  ```
+   * From the home repository open test_mumps.c and make sure `#define FLOAT` is commented (`//#define FLOAT`)
+      1.2 compile the code  ``` $ make  ```
 
 
 | Matrices |Links to download Matrix Market formats |
