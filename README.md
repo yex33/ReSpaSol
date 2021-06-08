@@ -101,8 +101,9 @@ numerical factorization, solve, and additional details.
 The scripts are provided in the home directory for other experiments as well.
 The GPU experiments are similar expect the scripts are located in the GPU repository.
 
-## additional details on the sparse matrices used
+## Additional details on the sparse matrices used
 
+### List of medium size matrices
 | Matrices |Links to download Matrix Market formats |
 | :--- | :--- | 
 |2cubes_sphere | https://suitesparse-collection-website.herokuapp.com/MM/Um/2cubes_sphere.tar.gz |
