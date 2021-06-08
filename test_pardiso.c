@@ -209,7 +209,7 @@ MKL_INT main(int argc, char *argv[])
         exit(2);
     }
     //printf("\nFactorization completed ... ");
-    
+
     /* -------------------------------------------------------------------- */
     /* .. Solution phase. */
     /* -------------------------------------------------------------------- */
@@ -223,9 +223,9 @@ MKL_INT main(int argc, char *argv[])
     #else
     mkl_sparse_d_create_csr(&csrA, SPARSE_INDEX_BASE_ONE, n, n, ia, ia + 1, ja, a);
     #endif
-    
 
-    /* Set right hand side to one. */   
+
+    /* Set right hand side to one. */
     for (i = 0; i < n; i++)
     {
         b[i] = 1;
@@ -282,6 +282,6 @@ MKL_INT main(int argc, char *argv[])
     phase = -1; /* Release internal memory. */
     PARDISO(pt, &maxfct, &mnum, &mtype, &phase,
             &n, a, ia, ja, perm, &nrhs, iparm, &msglvl, b, x, &error);
-    
+
     return 0;
 }

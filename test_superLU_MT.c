@@ -247,9 +247,9 @@ int main(int argc, char *argv[])
     Destroy_SuperNode_SCP(&L);
     Destroy_CompCol_NCP(&U);
 
-    printf("\n Reordering TIMING:  total  = %gs\n", time_analysis);    
+    printf("\n Reordering TIMING:  total  = %gs\n", time_analysis);
     printf("\n  Total TIMING   = %gs\n", t2 - t1);
-    
+
 //    #ifdef FLOAT
 //        free(Afp32);
 //    #endif
