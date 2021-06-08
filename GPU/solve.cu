@@ -5,6 +5,10 @@
 #include <cuda.h>
 #include "loadMatrixMarket.h"
 
+/*
+ * This is an example demonstrating usage of the cuSPARSE library to perform spmv
+ */
+
 #define FLOAT
 
 
@@ -131,39 +135,25 @@ int main(int argc, char **argv)
     cusparseSetMatIndexBase(desc_L, CUSPARSE_INDEX_BASE_ZERO);
     cusparseSetMatType(desc_L, CUSPARSE_MATRIX_TYPE_GENERAL);
     cusparseSetMatFillMode(desc_L, CUSPARSE_FILL_MODE_LOWER);
-    cusparseSetMatDiagType(desc_L, CUSPARSE_DIAG_TYPE_UNIT);
-
-    cusparseMatDescr_t desc_U = 0;
-    cusparseCreateMatDescr(&desc_U);
-    cusparseSetMatIndexBase(desc_U, CUSPARSE_INDEX_BASE_ONE);
-    cusparseSetMatType(desc_U, CUSPARSE_MATRIX_TYPE_GENERAL);
-    cusparseSetMatFillMode(desc_U, CUSPARSE_FILL_MODE_UPPER);
-    cusparseSetMatDiagType(desc_U, CUSPARSE_DIAG_TYPE_NON_UNIT);
+    cusparseSetMatDiagType(desc_L, CUSPARSE_DIAG_TYPE_NON_UNIT);
 
     //  Create a empty info structure
-    csrilu02Info_t info_A  = 0;
-    csrsv2Info_t   info_L  = 0;
-    csrsv2Info_t   info_U = 0;
-
-    cusparseCreateCsrilu02Info(&info_A);
+    csric02Info_t info_A  = 0;
+    csrsv2Info_t  info_L  = 0;
+    csrsv2Info_t  info_Lt = 0;
+    cusparseCreateCsric02Info(&info_A);
     cusparseCreateCsrsv2Info(&info_L);
-    cusparseCreateCsrsv2Info(&info_U);
+    cusparseCreateCsrsv2Info(&info_Lt);
+
 
     //  Query how much memory used in csric02 and csrsv2, and allocate the buffer
     int pBufferSize_A;
     int pBufferSize_L;
-    int pBufferSize_U;
-
-
-    // Timing variables
-    cudaEvent_t start;
-    cudaEvent_t stop;
-    cudaErrCheck(cudaEventCreate(&start));
-    cudaErrCheck(cudaEventCreate(&stop));
+    int pBufferSize_Lt;
 
 
 #ifdef FLOAT
-    cusparseScsrilu02_bufferSize(handle, n, matrixA.nnz,
+    cusparseScsric02_bufferSize(handle, n, matrixA.nnz,
 				desc_A, dCsrValA, dCsrRowPtrA, dCsrColIndA,
 				info_A, &pBufferSize_A);
 
@@ -171,10 +161,10 @@ int main(int argc, char **argv)
 			       desc_L, dCsrValA, dCsrRowPtrA, dCsrColIndA,
 			       info_L, &pBufferSize_L);
 
-    cusparseScsrsv2_bufferSize(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, n, matrixA.nnz,
-			       desc_U, dCsrValA, dCsrRowPtrA, dCsrColIndA, info_U,&pBufferSize_U);
+    cusparseScsrsv2_bufferSize(handle, CUSPARSE_OPERATION_TRANSPOSE, n, matrixA.nnz,
+			       desc_L, dCsrValA, dCsrRowPtrA, dCsrColIndA, info_Lt,&pBufferSize_Lt);
 #else 
-    cusparseDcsrilu02_bufferSize(handle, n, matrixA.nnz,
+    cusparseDcsric02_bufferSize(handle, n, matrixA.nnz,
 				desc_A, dCsrValA, dCsrRowPtrA, dCsrColIndA,
 				info_A, &pBufferSize_A);
 
@@ -182,47 +172,35 @@ int main(int argc, char **argv)
 			       desc_L, dCsrValA, dCsrRowPtrA, dCsrColIndA,
 			       info_L, &pBufferSize_L);
 
-    cusparseDcsrsv2_bufferSize(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, n, matrixA.nnz,
-			       desc_U, dCsrValA, dCsrRowPtrA, dCsrColIndA, info_U,&pBufferSize_U);
+    cusparseDcsrsv2_bufferSize(handle, CUSPARSE_OPERATION_TRANSPOSE, n, matrixA.nnz,
+			       desc_L, dCsrValA, dCsrRowPtrA, dCsrColIndA, info_Lt,&pBufferSize_Lt);
 #endif
 
 
-    int   pBufferSize = max(pBufferSize_A, max(pBufferSize_L, pBufferSize_U));
+    int   pBufferSize = max(pBufferSize_A, max(pBufferSize_L, pBufferSize_Lt));
 
     // pBuffer returned by cudaMalloc is automatically aligned to 128 bytes.
     void *pBuffer = 0;
     cudaMalloc((void**)&pBuffer, pBufferSize);
 
-    // Timing the analysis 
-    cudaEventRecord(start);
 
-    // Perform analysis of ILU0 on A
+    // Perform analysis of incomplete Cholesky on A
     const cusparseSolvePolicy_t policy_A  = CUSPARSE_SOLVE_POLICY_NO_LEVEL;
 
 #ifdef FLOAT
-    cusparseScsrilu02_analysis(handle, n, matrixA.nnz, desc_A,
-			       dCsrValA, dCsrRowPtrA, dCsrColIndA, info_A,
-			       policy_A, pBuffer);
+    cusparseScsric02_analysis(handle, n, matrixA.nnz, desc_A,
+			      dCsrValA, dCsrRowPtrA, dCsrColIndA, info_A,
+			      policy_A, pBuffer);
 #else
-    cusparseDcsrilu02_analysis(handle, n, matrixA.nnz, desc_A,
+    cusparseDcsric02_analysis(handle, n, matrixA.nnz, desc_A,
 			      dCsrValA, dCsrRowPtrA, dCsrColIndA, info_A,
 			      policy_A, pBuffer);
 #endif 
 
-    
-    cudaEventRecord(stop);  
-    cudaEventSynchronize(stop);
-    float milliseconds = 0;
-    cudaEventElapsedTime(&milliseconds, start, stop);
-    float time_symbolique  = milliseconds;
-
-
-
     int structural_zero;
-    cusparseStatus_t status = cusparseXcsrilu02_zeroPivot(handle, info_A, &structural_zero);
+    cusparseStatus_t status = cusparseXcsric02_zeroPivot(handle, info_A, &structural_zero);
     if (CUSPARSE_STATUS_ZERO_PIVOT == status){
       printf("A(%d,%d) is missing\n", structural_zero, structural_zero);
-      return 0;
     }
 
     // Perform analysis of triangular solve on L
@@ -238,88 +216,87 @@ int main(int argc, char **argv)
 			     info_L, policy_L, pBuffer);
 #endif 
 
-    // Perform analysis of triangular solve on U
-    const cusparseSolvePolicy_t policy_U = CUSPARSE_SOLVE_POLICY_USE_LEVEL;
+    // Perform analysis of triangular solve on L'
+    const cusparseSolvePolicy_t policy_Lt = CUSPARSE_SOLVE_POLICY_USE_LEVEL;
 
 #ifdef FLOAT
-    cusparseScsrsv2_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, n, matrixA.nnz, desc_L,
+    cusparseScsrsv2_analysis(handle, CUSPARSE_OPERATION_TRANSPOSE , n, matrixA.nnz, desc_L,
 			     dCsrValA, dCsrRowPtrA, dCsrColIndA,
-			     info_U, policy_U, pBuffer);
+			     info_Lt, policy_Lt, pBuffer);
 #else
-    cusparseDcsrsv2_analysis(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, n, matrixA.nnz, desc_L,
+    cusparseDcsrsv2_analysis(handle, CUSPARSE_OPERATION_TRANSPOSE , n, matrixA.nnz, desc_L,
 			     dCsrValA, dCsrRowPtrA, dCsrColIndA,
-			     info_U, policy_U, pBuffer);
+			     info_Lt, policy_Lt, pBuffer);
 #endif 
-    
-    
-
 
     // Numerical factorization
     int numerical_zero;
 
-    // Timing the numerical factorization 
-    cudaEventRecord(start);
-
 #ifdef FLOAT
-    cusparseScsrilu02(handle, n, matrixA.nnz, desc_A,
-		      dCsrValA, dCsrRowPtrA, dCsrColIndA, info_A, policy_A, pBuffer);
+    cusparseScsric02(handle, n, matrixA.nnz, desc_A,
+		     dCsrValA, dCsrRowPtrA, dCsrColIndA, info_A, policy_A, pBuffer);
 #else
-    cusparseDcsrilu02(handle, n, matrixA.nnz, desc_A,
+    cusparseDcsric02(handle, n, matrixA.nnz, desc_A,
 		     dCsrValA, dCsrRowPtrA, dCsrColIndA, info_A, policy_A, pBuffer);
 #endif 
 
-    cudaEventRecord(stop);  
-    cudaEventSynchronize(stop);
-    milliseconds = 0;
-    cudaEventElapsedTime(&milliseconds, start, stop);
-    float time_numeric  = milliseconds;
-
-
-    status = cusparseXcsrilu02_zeroPivot(handle, info_A, &numerical_zero);
+    status = cusparseXcsric02_zeroPivot(handle, info_A, &numerical_zero);
     if (CUSPARSE_STATUS_ZERO_PIVOT == status){
       printf("L(%d,%d) is zero\n", numerical_zero, numerical_zero);
-      return 0;
     }
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 925a721fb9fa841c5819ff9fd9764875503d4b24
-    cudaEventRecord(start);
+    // Timing the solve 
+    cudaEvent_t start;
+    cudaEvent_t stop;
+    cudaErrCheck(cudaEventCreate(&start));
+    cudaErrCheck(cudaEventCreate(&stop));
+
+    int REPEAT = 10;
+    float times [REPEAT];
+    
+    for (int i = 0; i < REPEAT; i++) {
+        cudaEventRecord(start);
 #ifdef FLOAT
-    //  Solve L*z = x
-    cusparseScsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, n, matrixA.nnz, &alpha, desc_L,
+	//  Solve L*z = x
+	cusparseScsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, n, matrixA.nnz, &alpha, desc_L,
+        dCsrValA, dCsrRowPtrA, dCsrColIndA, info_L,
+        dX, dZ, policy_L, pBuffer);
+	// Solve L'*y = z
+	cusparseScsrsv2_solve(handle, CUSPARSE_OPERATION_TRANSPOSE, n, matrixA.nnz, &alpha, desc_L,
+			  dCsrValA, dCsrRowPtrA, dCsrColIndA, info_Lt,
+			  dZ, dY, policy_Lt, pBuffer);
+#else
+	//  Solve L*z = x
+	cusparseDcsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, n, matrixA.nnz, &alpha, desc_L,
 			  dCsrValA, dCsrRowPtrA, dCsrColIndA, info_L,
 			  dX, dZ, policy_L, pBuffer);
-    // Solve L'*y = z
-    cusparseScsrsv2_solve(handle, CUSPARSE_OPERATION_TRANSPOSE, n, matrixA.nnz, &alpha, desc_L,
-			  dCsrValA, dCsrRowPtrA, dCsrColIndA, info_U,
-			  dZ, dY, policy_U, pBuffer);
-#else
-    //  Solve L*z = x
-    cusparseDcsrsv2_solve(handle, CUSPARSE_OPERATION_NON_TRANSPOSE, n, matrixA.nnz, &alpha, desc_L,
-			  dCsrValA, dCsrRowPtrA, dCsrColIndA, info_L,
-			  dX, dZ, policy_L, pBuffer);
-    // Solve L'*y = z
-    cusparseDcsrsv2_solve(handle, CUSPARSE_OPERATION_TRANSPOSE, n, matrixA.nnz, &alpha, desc_L,
-			  dCsrValA, dCsrRowPtrA, dCsrColIndA, info_U,
-			  dZ, dY, policy_U, pBuffer);
+	// Solve L'*y = z
+	cusparseDcsrsv2_solve(handle, CUSPARSE_OPERATION_TRANSPOSE, n, matrixA.nnz, &alpha, desc_L,
+			  dCsrValA, dCsrRowPtrA, dCsrColIndA, info_Lt,
+			  dZ, dY, policy_Lt, pBuffer);
 #endif
+
+	cudaEventRecord(stop);  
+	cudaEventSynchronize(stop);
+	float milliseconds = 0;
+	cudaEventElapsedTime(&milliseconds, start, stop);
+	
+	times[i] = milliseconds;
+    }
     
-    cudaEventRecord(stop);  
-    cudaEventSynchronize(stop);
-    milliseconds = 0;
-    cudaEventElapsedTime(&milliseconds, start, stop);
-    
-    float time_solve  = milliseconds;
-    
+    float sum_times = 0.0f;
+    for (int i = 0; i < REPEAT; i++) {
+      sum_times += times[i];
+    }
+
 #ifdef FLOAT
-    printf ("SINGLE PRECISION SOLVE IN  MILLISECONDS\n ");
+    printf ("SINGLE PRECISION SOLVE ");
 #else
-    printf ("DOUBLE PRECISION SOLVE IN  MILLISECONDS\n ");
+    printf ("DOUBLE PRECISION SOLVE ");
 #endif
-    printf ("Symbolic = %f\n Numeric = %f \n Symbolic+ Numeric = %f\n Solve = %f\n", time_symbolique, time_numeric, time_symbolique + time_numeric,  time_solve);
+    printf ("solve time (milliseconds) = %f\n", (sum_times/REPEAT));
  
     cudaErrCheck(cudaEventDestroy(start));             
     cudaErrCheck(cudaEventDestroy(stop));
@@ -335,13 +312,12 @@ int main(int argc, char **argv)
     cudaErrCheck(cudaFree(dCsrColIndA));
     cudaErrCheck(cudaFree(pBuffer));
     
-    cusparseDestroyCsrilu02Info(info_A);
+    cusparseDestroyCsric02Info(info_A);
     cusparseDestroyCsrsv2Info(info_L);
-    cusparseDestroyCsrsv2Info(info_U);
+    cusparseDestroyCsrsv2Info(info_Lt);
 
     cusparseErrCheck(cusparseDestroyMatDescr(desc_A));
     cusparseErrCheck(cusparseDestroyMatDescr(desc_L));
-    cusparseErrCheck(cusparseDestroyMatDescr(desc_U));
     cusparseErrCheck(cusparseDestroy(handle));
     return 0;
 }
