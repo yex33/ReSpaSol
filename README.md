@@ -68,7 +68,7 @@ This will create the  following executable files: `test_superLU_MT`, `test_super
 
 4. Compile codes for GPU experiments 
 ```bash
-$ cd ../GPU
+$ cd ./GPU
 $ make
 ```
 This will create the  following executable files:  `test_spmv`, `test_ilu0`.
