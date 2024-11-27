@@ -1,0 +1,155 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-fopenmp",
+      "-fPIC",
+      "-std=c++20",
+      "-Wno-deprecated",
+      "-Wall",
+      "-O1",
+      "-I/usr/include/superlu_mt",
+      "-I./ReadMatrixMarket",
+      "-fPIC",
+      "-c",
+      "-o",
+      "test_superLU_MT.o",
+      "test_superLU_MT.c"
+    ],
+    "directory": "/home/joe/Documents/projects/ReSpaSol",
+    "file": "/home/joe/Documents/projects/ReSpaSol/test_superLU_MT.c",
+    "output": "/home/joe/Documents/projects/ReSpaSol/test_superLU_MT.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-fopenmp",
+      "-fPIC",
+      "-std=c++20",
+      "-Wno-deprecated",
+      "-Wall",
+      "-O1",
+      "-I/usr/include/superlu",
+      "-I./ReadMatrixMarket",
+      "-fPIC",
+      "-c",
+      "-o",
+      "test_superILU.o",
+      "test_superILU.c"
+    ],
+    "directory": "/home/joe/Documents/projects/ReSpaSol",
+    "file": "/home/joe/Documents/projects/ReSpaSol/test_superILU.c",
+    "output": "/home/joe/Documents/projects/ReSpaSol/test_superILU.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-fopenmp",
+      "-fPIC",
+      "-std=c++20",
+      "-Wno-deprecated",
+      "-Wall",
+      "-O1",
+      "-I/opt/intel/oneapi/mkl/latest/include",
+      "-I./ReadMatrixMarket",
+      "-fPIC",
+      "-c",
+      "-o",
+      "test_pardiso.o",
+      "test_pardiso.c"
+    ],
+    "directory": "/home/joe/Documents/projects/ReSpaSol",
+    "file": "/home/joe/Documents/projects/ReSpaSol/test_pardiso.c",
+    "output": "/home/joe/Documents/projects/ReSpaSol/test_pardiso.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-DAdd_",
+      "-m64",
+      "-fopenmp",
+      "-fPIC",
+      "-std=c++20",
+      "-Wno-deprecated",
+      "-Wall",
+      "-O1",
+      "-I/usr/include",
+      "-I/usr/include",
+      "-I/opt/intel/oneapi/mkl/latest/include",
+      "-I./ReadMatrixMarket",
+      "-I/usr/include",
+      "-fPIC",
+      "-c",
+      "-I/usr/include",
+      "-o",
+      "test_mumps.o",
+      "test_mumps.c"
+    ],
+    "directory": "/home/joe/Documents/projects/ReSpaSol",
+    "file": "/home/joe/Documents/projects/ReSpaSol/test_mumps.c",
+    "output": "/home/joe/Documents/projects/ReSpaSol/test_mumps.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-fopenmp",
+      "-fPIC",
+      "-std=c++20",
+      "-Wno-deprecated",
+      "-Wall",
+      "-O1",
+      "-I/opt/intel/oneapi/mkl/latest/include",
+      "-I./ReadMatrixMarket",
+      "-fPIC",
+      "-c",
+      "-o",
+      "test_spmv.o",
+      "test_spmv.c"
+    ],
+    "directory": "/home/joe/Documents/projects/ReSpaSol",
+    "file": "/home/joe/Documents/projects/ReSpaSol/test_spmv.c",
+    "output": "/home/joe/Documents/projects/ReSpaSol/test_spmv.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-fopenmp",
+      "-fPIC",
+      "-std=c++20",
+      "-Wno-deprecated",
+      "-Wall",
+      "-O1",
+      "-I./benchmark/include",
+      "-fPIC",
+      "-c",
+      "-o",
+      "bench.o",
+      "bench.cc"
+    ],
+    "directory": "/home/joe/Documents/projects/ReSpaSol",
+    "file": "/home/joe/Documents/projects/ReSpaSol/bench.cc",
+    "output": "/home/joe/Documents/projects/ReSpaSol/bench.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-fopenmp",
+      "-fPIC",
+      "-std=c++20",
+      "-Wno-deprecated",
+      "-Wall",
+      "-O1",
+      "-I/opt/intel/oneapi/mkl/latest/include",
+      "-I./ReadMatrixMarket",
+      "-I./benchmark/include",
+      "-fPIC",
+      "-c",
+      "-o",
+      "bench_spmv.o",
+      "bench_spmv.cc"
+    ],
+    "directory": "/home/joe/Documents/projects/ReSpaSol",
+    "file": "/home/joe/Documents/projects/ReSpaSol/bench_spmv.cc",
+    "output": "/home/joe/Documents/projects/ReSpaSol/bench_spmv.o"
+  }
+]
