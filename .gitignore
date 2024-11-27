@@ -188,3 +188,4 @@ dkms.conf
 .cache
 build/
 output/
+*.bak
